@@ -48,7 +48,23 @@ from src.predict import predict_churn
 def home():
     return {"message": "Customer Churn Prediction API is running"}
 
+from fastapi import HTTPException
+from src.predict import predict_churn
+
 
 @app.post("/predict")
 def predict(customer: CustomerData):
-    return predict_churn(customer.model_dump())
+    try:
+        return predict_churn(customer.model_dump())
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail="Prediction failed. Check the server logs."
+        ) from exc
+
+@app.get("/health")
+def health_check():
+    return {
+        "status": "healthy",
+        "service": "Customer Churn Prediction API"
+    }
