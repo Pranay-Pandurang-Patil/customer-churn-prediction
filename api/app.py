@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from fastapi import HTTPException
+from src.predict import predict_churn
 app = FastAPI(
     title="Customer Churn Prediction API",
     description="Predict customer churn using machine learning.",
@@ -38,7 +39,8 @@ class CustomerData(BaseModel):
     PaperlessBilling: str
     PaymentMethod: str
     MonthlyCharges: float = Field(ge=0)
-    TotalCharges: float = Field(ge=0)
+    TotalCharges: float | None = Field(default=None, ge=0)
+
 
 
 from src.predict import predict_churn
@@ -51,7 +53,6 @@ def home():
 from fastapi import HTTPException
 from src.predict import predict_churn
 
-
 @app.post("/predict")
 def predict(customer: CustomerData):
     try:
@@ -61,6 +62,7 @@ def predict(customer: CustomerData):
             status_code=500,
             detail="Prediction failed. Check the server logs."
         ) from exc
+
 
 @app.get("/health")
 def health_check():
