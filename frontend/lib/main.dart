@@ -34,6 +34,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
+          // SIDEBAR
           Container(
             width: 240,
             color: const Color(0xFF1E1B4B),
@@ -79,34 +80,77 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
           ),
+
+          // MAIN DASHBOARD
           Expanded(
-            child: Container(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(32),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  // DASHBOARD HEADER
+                  const Text(
                     'Customer Churn Dashboard',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+
+                  const SizedBox(height: 8),
+
+                  const Text(
                     'Monitor churn patterns and predict customer risk.',
                     style: TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 15,
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Text(
+
+                  const SizedBox(height: 32),
+
+                  // OVERVIEW SECTION
+                  const Text(
                     'Overview',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // KPI CARDS
+                  Wrap(
+                    spacing: 20,
+                    runSpacing: 20,
+                    children: [
+                      _metricCard(
+                        'Total Customers',
+                        '7,043',
+                        Icons.people_alt_outlined,
+                      ),
+                      _metricCard(
+                        'Churned Customers',
+                        '1,869',
+                        Icons.person_remove_outlined,
+                      ),
+                      _metricCard(
+                        'Retained Customers',
+                        '5,174',
+                        Icons.people_outline,
+                      ),
+                      _metricCard(
+                        'Churn Rate',
+                        '26.5%',
+                        Icons.trending_up,
+                      ),
+                      _metricCard(
+                        'Model ROC-AUC',
+                        '84.14%',
+                        Icons.insights,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -117,6 +161,60 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
+  // REUSABLE KPI CARD
+  static Widget _metricCard(
+    String title,
+    String value,
+    IconData icon,
+  ) {
+    return Container(
+      width: 210,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: const Color(0xFF4F46E5),
+            size: 26,
+          ),
+
+          const SizedBox(height: 16),
+
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 13,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // SIDEBAR NAVIGATION ITEM
   static Widget _sidebarItem(
     IconData icon,
     String title,
@@ -134,7 +232,10 @@ class DashboardScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
-        leading: Icon(icon, color: Colors.white),
+        leading: Icon(
+          icon,
+          color: Colors.white,
+        ),
         title: Text(
           title,
           style: const TextStyle(
