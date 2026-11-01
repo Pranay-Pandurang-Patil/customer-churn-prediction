@@ -88,7 +88,6 @@ class DashboardScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // DASHBOARD HEADER
                   const Text(
                     'Customer Churn Dashboard',
                     style: TextStyle(
@@ -109,7 +108,6 @@ class DashboardScreen extends StatelessWidget {
 
                   const SizedBox(height: 32),
 
-                  // OVERVIEW SECTION
                   const Text(
                     'Overview',
                     style: TextStyle(
@@ -152,6 +150,21 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  const SizedBox(height: 36),
+
+                  const Text(
+                    'Churn Analytics',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // DISTRIBUTION CHART
+                  _distributionCard(),
                 ],
               ),
             ),
@@ -161,7 +174,7 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // REUSABLE KPI CARD
+  // KPI CARD
   static Widget _metricCard(
     String title,
     String value,
@@ -214,7 +227,121 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  // SIDEBAR NAVIGATION ITEM
+  // CUSTOMER DISTRIBUTION CARD
+  static Widget _distributionCard() {
+    return Container(
+      width: 500,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Customer Churn Distribution',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: const Row(
+              children: [
+                Expanded(
+                  flex: 5174,
+                  child: SizedBox(
+                    height: 18,
+                    child: ColoredBox(
+                      color: Color(0xFF4F46E5),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1869,
+                  child: SizedBox(
+                    height: 18,
+                    child: ColoredBox(
+                      color: Color(0xFFF59E0B),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 24),
+
+          _legendItem(
+            const Color(0xFF4F46E5),
+            'Retained Customers',
+            '5,174 (73.5%)',
+          ),
+
+          const SizedBox(height: 14),
+
+          _legendItem(
+            const Color(0xFFF59E0B),
+            'Churned Customers',
+            '1,869 (26.5%)',
+          ),
+        ],
+      ),
+    );
+  }
+
+  // CHART LEGEND
+  static Widget _legendItem(
+    Color color,
+    String title,
+    String value,
+  ) {
+    return Row(
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 13,
+            ),
+          ),
+        ),
+
+        Text(
+          value,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 13,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // SIDEBAR NAVIGATION
   static Widget _sidebarItem(
     IconData icon,
     String title,
