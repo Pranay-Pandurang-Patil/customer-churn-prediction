@@ -2,11 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
 from src.predict import predict_churn
+from api.analytics import router as analytics_router
 app = FastAPI(
     title="Customer Churn Prediction API",
     description="Predict customer churn using machine learning.",
     version="1.0.0"
 )
+app.include_router(analytics_router)
 
 app.add_middleware(
     CORSMiddleware,
