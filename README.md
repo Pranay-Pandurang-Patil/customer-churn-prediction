@@ -39,8 +39,8 @@ The long-term goal is to build a complete customer churn analytics application t
 | API health endpoint                | Implemented |
 | API input validation               | Implemented |
 | Flutter Web project initialization | Completed   |
-| Dashboard foundation and sidebar   | In Progress |
-| Dashboard KPI cards                | Planned     |
+| Dashboard foundation and sidebar   | Completed   |
+| Dashboard KPI cards                | In Progress |
 | Interactive analytics charts       | Planned     |
 | Customer prediction interface      | Planned     |
 | Flutter–FastAPI integration        | Planned     |
@@ -230,8 +230,8 @@ The application follows a modular architecture separating data science experimen
 
 ### Application Flow
 
-1. Customer information is entered through the Flutter interface.
-2. Flutter sends the customer data to the FastAPI backend.
+1. Customer information is entered through  Flutter interface.
+2. Flutter sends customer data to the FastAPI backend.
 3. FastAPI validates the incoming request using Pydantic.
 4. The saved machine learning pipeline processes the input.
 5. The model generates a churn prediction and probability.
