@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'analytics_service.dart';
 
 void main() {
   runApp(const ChurnAnalyticsApp());
@@ -163,8 +164,33 @@ class DashboardScreen extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // DISTRIBUTION CHART
+                  // CUSTOMER DISTRIBUTION
                   _distributionCard(),
+
+                  const SizedBox(height: 36),
+
+                  // CONTRACT ANALYTICS
+                  const Text(
+                    'Contract-wise Churn Analysis',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  const Text(
+                    'Analyze customer churn across different contract types.',
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  const ContractAnalyticsCard(),
                 ],
               ),
             ),
@@ -371,6 +397,218 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
         dense: true,
+      ),
+    );
+  }
+}
+
+// CONTRACT ANALYTICS CARD
+class ContractAnalyticsCard extends StatefulWidget {
+  const ContractAnalyticsCard({super.key});
+
+  @override
+  State<ContractAnalyticsCard> createState() =>
+      _ContractAnalyticsCardState();
+}
+
+class _ContractAnalyticsCardState
+    extends State<ContractAnalyticsCard> {
+  late Future<List<Map<String, dynamic>>> analyticsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    analyticsFuture = AnalyticsService.fetchContractAnalytics();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: analyticsFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(40),
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return _statusCard(
+            icon: Icons.cloud_off_outlined,
+            message: 'Unable to load contract analytics.',
+            description: 'Check the backend connection.',
+          );
+        }
+
+        final analytics = snapshot.data ?? [];
+
+        if (analytics.isEmpty) {
+          return _statusCard(
+            icon: Icons.analytics_outlined,
+            message: 'No analytics data available.',
+            description: 'The API returned an empty result.',
+          );
+        }
+
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Churn Rate by Contract',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              ...analytics.map((item) {
+                final contract =
+                    item['Contract']?.toString() ?? 'Unknown';
+
+                final totalCustomers =
+                    (item['total_customers'] as num?)?.toInt() ?? 0;
+
+                final churnedCustomers =
+                    (item['churned_customers'] as num?)?.toInt() ?? 0;
+
+                final churnRate =
+                    (item['churn_rate'] as num?)?.toDouble() ?? 0.0;
+
+                return _contractItem(
+                  contract: contract,
+                  totalCustomers: totalCustomers,
+                  churnedCustomers: churnedCustomers,
+                  churnRate: churnRate,
+                );
+              }),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _contractItem({
+    required String contract,
+    required int totalCustomers,
+    required int churnedCustomers,
+    required double churnRate,
+  }) {
+    final normalizedRate =
+        (churnRate / 100).clamp(0.0, 1.0).toDouble();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 28),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  contract,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Text(
+                '${churnRate.toStringAsFixed(2)}%',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFDC2626),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: normalizedRate,
+              minHeight: 12,
+              backgroundColor: const Color(0xFFE5E7EB),
+              color: const Color(0xFFEF4444),
+            ),
+          ),
+
+          const SizedBox(height: 10),
+
+          Text(
+            'Customers: $totalCustomers  |  Churned: $churnedCustomers',
+            style: const TextStyle(
+              fontSize: 13,
+              color: Colors.blueGrey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusCard({
+    required IconData icon,
+    required String message,
+    required String description,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            size: 36,
+            color: Colors.blueGrey,
+          ),
+
+          const SizedBox(height: 12),
+
+          Text(
+            message,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
+          ),
+
+          const SizedBox(height: 6),
+
+          Text(
+            description,
+            style: const TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 13,
+            ),
+          ),
+        ],
       ),
     );
   }
