@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'analytics_service.dart';
+import 'prediction_screen.dart';
 
 void main() {
   runApp(const ChurnAnalyticsApp());
@@ -27,8 +28,45 @@ class ChurnAnalyticsApp extends StatelessWidget {
   }
 }
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  int selectedIndex = 0;
+
+  final List<String> pageTitles = [
+    'Dashboard',
+    'Churn Analytics',
+    'Predict Churn',
+    'Retention Insights',
+    'About Model',
+  ];
+
+  Widget _getSelectedPage() {
+    switch (selectedIndex) {
+      case 0:
+      case 1:
+        return _buildDashboardContent();
+
+      case 2:
+        return const PredictionScreen();
+
+      default:
+        return Center(
+          child: Text(
+            '${pageTitles[selectedIndex]} - Coming Soon',
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,155 +91,204 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 _sidebarItem(
                   Icons.dashboard_rounded,
                   'Dashboard',
-                  true,
+                  0,
                 ),
+
                 _sidebarItem(
                   Icons.analytics_outlined,
                   'Churn Analytics',
-                  false,
+                  1,
                 ),
+
                 _sidebarItem(
                   Icons.psychology_outlined,
                   'Predict Churn',
-                  false,
+                  2,
                 ),
+
                 _sidebarItem(
                   Icons.lightbulb_outline,
                   'Retention Insights',
-                  false,
+                  3,
                 ),
+
                 _sidebarItem(
                   Icons.info_outline,
                   'About Model',
-                  false,
+                  4,
                 ),
               ],
             ),
           ),
 
-          // MAIN DASHBOARD
+          // MAIN CONTENT
           Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Customer Churn Dashboard',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  const Text(
-                    'Monitor churn patterns and predict customer risk.',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 15,
-                    ),
-                  ),
-
-                  const SizedBox(height: 32),
-
-                  const Text(
-                    'Overview',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // KPI CARDS
-                  Wrap(
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: [
-                      _metricCard(
-                        'Total Customers',
-                        '7,043',
-                        Icons.people_alt_outlined,
-                      ),
-                      _metricCard(
-                        'Churned Customers',
-                        '1,869',
-                        Icons.person_remove_outlined,
-                      ),
-                      _metricCard(
-                        'Retained Customers',
-                        '5,174',
-                        Icons.people_outline,
-                      ),
-                      _metricCard(
-                        'Churn Rate',
-                        '26.5%',
-                        Icons.trending_up,
-                      ),
-                      _metricCard(
-                        'Model ROC-AUC',
-                        '84.14%',
-                        Icons.insights,
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 36),
-
-                  const Text(
-                    'Churn Analytics',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // CUSTOMER DISTRIBUTION
-                  _distributionCard(),
-
-                  const SizedBox(height: 36),
-
-                  // CONTRACT ANALYTICS
-                  const Text(
-                    'Contract-wise Churn Analysis',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  const Text(
-                    'Analyze customer churn across different contract types.',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 14,
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  const ContractAnalyticsCard(),
-                ],
-              ),
-            ),
+            child: _getSelectedPage(),
           ),
         ],
       ),
     );
   }
 
+  // SIDEBAR NAVIGATION
+  Widget _sidebarItem(
+    IconData icon,
+    String title,
+    int index,
+  ) {
+    final bool selected = selectedIndex == index;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 4,
+      ),
+      decoration: BoxDecoration(
+        color: selected
+            ? const Color(0xFF4F46E5)
+            : Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: Colors.white,
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+        ),
+        dense: true,
+        onTap: () {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
+    );
+  }
+
+  // DASHBOARD CONTENT
+  Widget _buildDashboardContent() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Customer Churn Dashboard',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          const Text(
+            'Monitor churn patterns and predict customer risk.',
+            style: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 15,
+            ),
+          ),
+
+          const SizedBox(height: 32),
+
+          const Text(
+            'Overview',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // KPI CARDS
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [
+              _metricCard(
+                'Total Customers',
+                '7,043',
+                Icons.people_alt_outlined,
+              ),
+              _metricCard(
+                'Churned Customers',
+                '1,869',
+                Icons.person_remove_outlined,
+              ),
+              _metricCard(
+                'Retained Customers',
+                '5,174',
+                Icons.people_outline,
+              ),
+              _metricCard(
+                'Churn Rate',
+                '26.5%',
+                Icons.trending_up,
+              ),
+              _metricCard(
+                'Model ROC-AUC',
+                '84.14%',
+                Icons.insights,
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 36),
+
+          const Text(
+            'Churn Analytics',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          _distributionCard(),
+
+          const SizedBox(height: 36),
+
+          const Text(
+            'Contract-wise Churn Analysis',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          const Text(
+            'Analyze customer churn across different contract types.',
+            style: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 14,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          const ContractAnalyticsCard(),
+        ],
+      ),
+    );
+  }
+
   // KPI CARD
-  static Widget _metricCard(
+  Widget _metricCard(
     String title,
     String value,
     IconData icon,
@@ -254,7 +341,7 @@ class DashboardScreen extends StatelessWidget {
   }
 
   // CUSTOMER DISTRIBUTION CARD
-  static Widget _distributionCard() {
+  Widget _distributionCard() {
     return Container(
       width: 500,
       padding: const EdgeInsets.all(24),
@@ -329,7 +416,7 @@ class DashboardScreen extends StatelessWidget {
   }
 
   // CHART LEGEND
-  static Widget _legendItem(
+  Widget _legendItem(
     Color color,
     String title,
     String value,
@@ -364,40 +451,6 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  // SIDEBAR NAVIGATION
-  static Widget _sidebarItem(
-    IconData icon,
-    String title,
-    bool selected,
-  ) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 4,
-      ),
-      decoration: BoxDecoration(
-        color: selected
-            ? const Color(0xFF4F46E5)
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        leading: Icon(
-          icon,
-          color: Colors.white,
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-          ),
-        ),
-        dense: true,
-      ),
     );
   }
 }
@@ -532,6 +585,7 @@ class _ContractAnalyticsCardState
                   ),
                 ),
               ),
+
               Text(
                 '${churnRate.toStringAsFixed(2)}%',
                 style: const TextStyle(
