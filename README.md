@@ -41,8 +41,8 @@ The long-term goal is to build a complete customer churn analytics application t
 | Flutter Web project initialization | Completed   |
 | Dashboard foundation and sidebar   | Completed   |
 | Dashboard KPI cards                | Completed   |
-| Interactive analytics charts       | Planned     |
-| Customer prediction interface      | Planned     |
+| Interactive analytics charts       | Completed   |
+| Customer prediction interface      | Completed   |
 | Flutter–FastAPI integration        | Planned     |
 | Retention insights                 | Planned     |
 | Deployment                         | Planned     |
