@@ -496,7 +496,7 @@ The following features are planned for subsequent development.
 
 **Pranay Pandurang Patil**
 
-Computer Science and Engineering Student
+Computer Science and Engineering Student at KLS GIT Belgaum.
 
 GitHub: [Pranay-Pandurang-Patil](https://github.com/Pranay-Pandurang-Patil)
 
