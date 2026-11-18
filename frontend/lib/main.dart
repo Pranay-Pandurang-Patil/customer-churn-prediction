@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'analytics_service.dart';
 import 'prediction_screen.dart';
+import 'retention_screen.dart';
+import 'about_model_screen.dart';
 
 void main() {
   runApp(const ChurnAnalyticsApp());
@@ -49,22 +52,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _getSelectedPage() {
     switch (selectedIndex) {
       case 0:
-      case 1:
         return _buildDashboardContent();
+
+      case 1:
+        return _buildChurnAnalyticsContent();
 
       case 2:
         return const PredictionScreen();
 
+      case 3:
+        return const RetentionScreen();
+
+      case 4:
+        return const AboutModelScreen();
+
       default:
-        return Center(
-          child: Text(
-            '${pageTitles[selectedIndex]} - Coming Soon',
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        );
+        return _buildDashboardContent();
     }
   }
 
@@ -248,7 +251,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 36),
 
           const Text(
+            'Customer Distribution',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          _distributionCard(),
+        ],
+      ),
+    );
+  }
+
+  // CHURN ANALYTICS CONTENT
+  Widget _buildChurnAnalyticsContent() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
             'Churn Analytics',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          const Text(
+            'Explore customer churn distribution and contract-wise churn patterns.',
+            style: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 15,
+            ),
+          ),
+
+          const SizedBox(height: 32),
+
+          const Text(
+            'Customer Churn Distribution',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,

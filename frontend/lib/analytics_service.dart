@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'app_config.dart';
 
 class AnalyticsService {
-  static const String baseUrl = 'http://127.0.0.1:8000';
+  static const String baseUrl = AppConfig.apiBaseUrl;
 
   static Future<List<Map<String, dynamic>>> fetchContractAnalytics() async {
     final uri = Uri.parse('$baseUrl/analytics/contracts');

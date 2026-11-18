@@ -5,6 +5,33 @@ __pycache__/
 # Virtual environments
 .venv/
 venv/
+env/
 
 # Environment variables
 .env
+.env.*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Python testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

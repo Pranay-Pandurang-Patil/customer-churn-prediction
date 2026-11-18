@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'app_config.dart';
 
 class PredictionService {
-  static const String baseUrl = 'http://127.0.0.1:8000';
+  static const String baseUrl = AppConfig.apiBaseUrl;
 
   static Future<Map<String, dynamic>> predictChurn(
     Map<String, dynamic> customerData,

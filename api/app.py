@@ -1,27 +1,44 @@
-from fastapi import FastAPI
+import os
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import HTTPException
+from pydantic import BaseModel, Field
+
 from src.predict import predict_churn
 from api.analytics import router as analytics_router
+from api.insights import router as insights_router
+
+
 app = FastAPI(
     title="Customer Churn Prediction API",
     description="Predict customer churn using machine learning.",
     version="1.0.0"
 )
-app.include_router(analytics_router)
+
+
+# CORS CONFIGURATION
+allowed_origins = os.getenv("FRONTEND_ORIGIN", "")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000"],
+    allow_origins=[
+        origin.strip()
+        for origin in allowed_origins.split(",")
+        if origin.strip()
+    ],
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
 )
 
 
-from pydantic import BaseModel, Field
+# REGISTER ROUTERS
+app.include_router(analytics_router)
+app.include_router(insights_router)
 
 
+# CUSTOMER INPUT VALIDATION
 class CustomerData(BaseModel):
     gender: str
     SeniorCitizen: int = Field(ge=0, le=1)
@@ -44,21 +61,20 @@ class CustomerData(BaseModel):
     TotalCharges: float | None = Field(default=None, ge=0)
 
 
-
-from src.predict import predict_churn
-
-
+# HOME ENDPOINT
 @app.get("/")
 def home():
-    return {"message": "Customer Churn Prediction API is running"}
+    return {
+        "message": "Customer Churn Prediction API is running"
+    }
 
-from fastapi import HTTPException
-from src.predict import predict_churn
 
+# PREDICTION ENDPOINT
 @app.post("/predict")
 def predict(customer: CustomerData):
     try:
         return predict_churn(customer.model_dump())
+
     except Exception as exc:
         raise HTTPException(
             status_code=500,
@@ -66,6 +82,7 @@ def predict(customer: CustomerData):
         ) from exc
 
 
+# HEALTH CHECK ENDPOINT
 @app.get("/health")
 def health_check():
     return {
