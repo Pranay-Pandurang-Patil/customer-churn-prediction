@@ -316,7 +316,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: DropdownButtonFormField<String>(
-        value: customerData[key],
+        initialValue: customerData[key],
         decoration: InputDecoration(
           labelText: label,
           filled: true,

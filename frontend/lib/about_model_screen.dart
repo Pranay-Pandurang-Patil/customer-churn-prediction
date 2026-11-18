@@ -103,19 +103,19 @@ class AboutModelScreen extends StatelessWidget {
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _bulletPoint(
+                _BulletPoint(
                   'Numerical missing values handled using median imputation.',
                 ),
-                _bulletPoint(
+                _BulletPoint(
                   'Categorical missing values handled using most-frequent imputation.',
                 ),
-                _bulletPoint(
+                _BulletPoint(
                   'Numerical features standardized using StandardScaler.',
                 ),
-                _bulletPoint(
+                _BulletPoint(
                   'Categorical features encoded using OneHotEncoder.',
                 ),
-                _bulletPoint(
+                _BulletPoint(
                   'Unknown categorical values handled using handle_unknown="ignore".',
                 ),
               ],
@@ -129,11 +129,11 @@ class AboutModelScreen extends StatelessWidget {
             icon: Icons.account_tree_outlined,
             child: const Column(
               children: [
-                _pipelineStep('1', 'Customer Input'),
-                _pipelineStep('2', 'Data Preprocessing'),
-                _pipelineStep('3', 'Logistic Regression'),
-                _pipelineStep('4', 'Churn Probability'),
-                _pipelineStep('5', 'Prediction Result'),
+                _PipelineStep('1', 'Customer Input'),
+                _PipelineStep('2', 'Data Preprocessing'),
+                _PipelineStep('3', 'Logistic Regression'),
+                _PipelineStep('4', 'Churn Probability'),
+                _PipelineStep('5', 'Prediction Result'),
               ],
             ),
           ),
@@ -147,14 +147,14 @@ class AboutModelScreen extends StatelessWidget {
               spacing: 10,
               runSpacing: 10,
               children: [
-                _technologyChip('Python'),
-                _technologyChip('Pandas'),
-                _technologyChip('NumPy'),
-                _technologyChip('Scikit-learn'),
-                _technologyChip('Joblib'),
-                _technologyChip('FastAPI'),
-                _technologyChip('Flutter'),
-                _technologyChip('Dart'),
+                _TechnologyChip('Python'),
+                _TechnologyChip('Pandas'),
+                _TechnologyChip('NumPy'),
+                _TechnologyChip('Scikit-learn'),
+                _TechnologyChip('Joblib'),
+                _TechnologyChip('FastAPI'),
+                _TechnologyChip('Flutter'),
+                _TechnologyChip('Dart'),
               ],
             ),
           ),
@@ -291,10 +291,10 @@ class AboutModelScreen extends StatelessWidget {
   }
 }
 
-class _bulletPoint extends StatelessWidget {
+class _BulletPoint extends StatelessWidget {
   final String text;
 
-  const _bulletPoint(this.text);
+  const _BulletPoint(this.text);
 
   @override
   Widget build(BuildContext context) {
@@ -326,11 +326,11 @@ class _bulletPoint extends StatelessWidget {
   }
 }
 
-class _pipelineStep extends StatelessWidget {
+class _PipelineStep extends StatelessWidget {
   final String number;
   final String title;
 
-  const _pipelineStep(this.number, this.title);
+  const _PipelineStep(this.number, this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -365,10 +365,10 @@ class _pipelineStep extends StatelessWidget {
   }
 }
 
-class _technologyChip extends StatelessWidget {
+class _TechnologyChip extends StatelessWidget {
   final String title;
 
-  const _technologyChip(this.title);
+  const _TechnologyChip(this.title);
 
   @override
   Widget build(BuildContext context) {

@@ -1,87 +1,94 @@
 # Customer Churn Prediction & Retention Analytics
 
-An end-to-end Machine Learning project that predicts customer churn using historical telecom customer data and provides a foundation for data-driven customer retention analytics.
+An end-to-end Machine Learning application that predicts customer churn using historical telecom customer data and provides customer segmentation analytics through an interactive web dashboard.
 
-The project combines **Python, Pandas, Scikit-learn, FastAPI, and Flutter Web** to build a machine learning application with a production-oriented architecture.
+Built using **Python, Scikit-learn, FastAPI and Flutter Web**, this project combines predictive machine learning with historical churn analytics.
 
 ---
 
 ## Project Overview
 
-Customer churn occurs when customers discontinue a company's services. Identifying customers who are likely to leave helps businesses take proactive steps to improve customer retention.
+Customer churn occurs when customers discontinue a company's services. Identifying customers who are likely to leave helps businesses understand customer behaviour and make informed retention decisions.
 
 This project uses the IBM Telco Customer Churn dataset to:
 
-* Explore historical customer churn patterns.
-* Perform data preprocessing and feature engineering.
-* Train and compare multiple machine learning models.
-* Predict the likelihood of customer churn.
-* Provide predictions through a REST API.
-* Develop an interactive analytics dashboard.
+- Explore historical customer churn patterns.
+- Perform exploratory data analysis and preprocessing.
+- Train and compare multiple machine learning algorithms.
+- Predict individual customer churn probability.
+- Provide predictions through a REST API.
+- Analyze churn across different customer segments.
+- Display analytics through an interactive Flutter Web dashboard.
 
-The long-term goal is to build a complete customer churn analytics application that combines predictive modelling with actionable retention insights.
+The application separates historical dataset analytics from individual customer predictions.
 
-## Current Development Status
+---
 
-**Overall Status: In Development**
+## Application Screenshots
 
-| Component                          | Status      |
-| ---------------------------------- | ----------- |
-| Dataset collection                 | Completed   |
-| Exploratory Data Analysis          | Completed   |
-| Data preprocessing                 | Completed   |
-| ML model comparison                | Completed   |
-| Model evaluation                   | Completed   |
-| Model serialization using Joblib   | Completed   |
-| Reusable prediction module         | Completed   |
-| Prediction function verification   | Completed   |
-| FastAPI backend                    | Implemented |
-| API health endpoint                | Implemented |
-| API input validation               | Implemented |
-| Flutter Web project initialization | Completed   |
-| Dashboard foundation and sidebar   | Completed   |
-| Dashboard KPI cards                | Completed   |
-| Interactive analytics charts       | Completed   |
-| Customer prediction interface      | Completed   |
-| Flutter–FastAPI integration        | Planned     |
-| Retention insights                 | Planned     |
-| Deployment                         | Planned     |
-| Complete end-to-end testing        | Planned     |
+### 1. Dashboard
+
+![Customer Churn Dashboard](screenshots/dashboard.png)
+
+### 2. Churn Analytics
+
+![Churn Analytics](<screenshots/churn analytics.png>)
+
+### 3. Predict Customer Churn
+
+![Predict Customer Churn](<screenshots/Predict customer churn.png>)
+
+---
+
+## Features
+
+### Machine Learning
+- Exploratory Data Analysis.
+- Data preprocessing and feature engineering.
+- Comparison of four classification algorithms.
+- Stratified 5-fold cross-validation.
+- Logistic Regression model selection.
+- Model evaluation using multiple classification metrics.
+- Model serialization using Joblib.
+- Reusable prediction module.
+
+### Backend
+- FastAPI REST API.
+- Pydantic input validation.
+- Customer churn prediction endpoint.
+- Contract-wise churn analytics endpoint.
+- Retention insights endpoint.
+- Health check endpoint.
+- CORS configuration.
+
+### Frontend
+- Interactive Flutter Web dashboard.
+- Customer overview KPI cards.
+- Customer churn distribution.
+- Contract-wise churn analysis.
+- Individual customer prediction form.
+- Retention insights by customer segment.
+- Model performance information.
+- Sidebar-based navigation.
+- API integration with loading and error handling.
 
 ---
 
 ## Technology Stack
 
-### Machine Learning & Data Science
-
-* Python
-* NumPy
-* Pandas
-* Matplotlib
-* Seaborn
-* Scikit-learn
-* Joblib
-* Jupyter Notebook
-
-### Backend
-
-* FastAPI
-* Uvicorn
-* Pydantic
-* REST API
-
-### Frontend
-
-* Flutter
-* Dart
-* Flutter Web
-
-### Development Tools
-
-* Visual Studio Code
-* Jupyter Notebook
-* Git
-* GitHub
+| Category | Technologies |
+|---|---|
+| Programming Language | Python |
+| Data Analysis | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Machine Learning | Scikit-learn |
+| Model Persistence | Joblib |
+| Notebooks | Jupyter Notebook |
+| Backend | FastAPI, Uvicorn |
+| Validation | Pydantic |
+| Frontend | Flutter, Dart |
+| API Communication | HTTP, JSON |
+| Version Control | Git, GitHub |
 
 ---
 
@@ -89,48 +96,46 @@ The long-term goal is to build a complete customer churn analytics application t
 
 **Dataset:** IBM Telco Customer Churn
 
-**Source:** IBM Telco Customer Churn Dataset
+The dataset contains telecommunications customer information, including:
 
-The dataset contains information about telecommunications customers, including:
-
-* Customer demographics
-* Account information
-* Services subscribed to
-* Contract details
-* Monthly and total charges
-* Customer tenure
-* Churn status
+- Customer demographics.
+- Account information.
+- Internet and phone services.
+- Contract details.
+- Monthly and total charges.
+- Customer tenure.
+- Churn status.
 
 ### Dataset Information
 
-| Property                    | Value            |
-| --------------------------- | ---------------- |
-| Total records               | 7,043            |
-| Total columns               | 21               |
-| Input features              | 19               |
-| Target variable             | Churn            |
-| Missing TotalCharges values | 11 blank entries |
-| Duplicate records           | 0                |
+| Property | Value |
+|---|---:|
+| Total records | 7,043 |
+| Total columns | 21 |
+| Input features | 19 |
+| Target variable | Churn |
+| Missing TotalCharges values | 11 |
+| Duplicate records | 0 |
+
+The `customerID` column is excluded from model training because it is an identifier rather than a predictive feature.
 
 ### Target Distribution
 
-| Customer Category | Records |
-| ----------------- | ------: |
-| No Churn          |   5,174 |
-| Churn             |   1,869 |
+| Customer Category | Records | Percentage |
+|---|---:|---:|
+| No Churn | 5,174 | 73.5% |
+| Churn | 1,869 | 26.5% |
 
-The target variable is encoded as:
+Target encoding:
 
-* No → 0
-* Yes → 1
-
-The `customerID` column is excluded from model training because it is an identifier rather than a predictive feature.
+- No → 0
+- Yes → 1
 
 ---
 
 ## Machine Learning Workflow
 
-The machine learning workflow consists of the following stages:
+The project follows a structured machine learning workflow.
 
 1. Dataset loading and exploration.
 2. Exploratory Data Analysis.
@@ -138,107 +143,186 @@ The machine learning workflow consists of the following stages:
 4. Separating numerical and categorical features.
 5. Train-test splitting using stratification.
 6. Building preprocessing pipelines.
-7. Comparing multiple classification algorithms.
-8. Selecting the best-performing model.
-9. Evaluating the final model.
+7. Comparing classification algorithms.
+8. Selecting the final model.
+9. Evaluating model performance.
 10. Saving the trained pipeline using Joblib.
 
 ### Data Preprocessing
 
-Numerical features:
+**Numerical features**
 
-* Median imputation
-* Standard scaling
+- Median imputation.
+- Standard scaling using StandardScaler.
 
-Categorical features:
+**Categorical features**
 
-* Most-frequent imputation
-* One-hot encoding
+- Most-frequent imputation.
+- One-hot encoding using OneHotEncoder.
 
 A Scikit-learn `ColumnTransformer` combines both preprocessing pipelines.
 
-Preprocessing and classification are integrated into a single Scikit-learn Pipeline to ensure consistent transformations during training and prediction.
+The preprocessing and classification stages are integrated into a single Scikit-learn Pipeline to ensure consistent transformations during training and prediction.
 
 ### Models Evaluated
 
-The following classification algorithms were compared:
+Four classification algorithms were compared:
 
-1. Logistic Regression
-2. Decision Tree
-3. Random Forest
-4. Support Vector Machine (SVM)
+1. Logistic Regression.
+2. Decision Tree.
+3. Random Forest.
+4. Support Vector Machine (SVM).
 
-Model comparison was performed using 5-fold stratified cross-validation.
+Model comparison was performed using stratified 5-fold cross-validation.
 
 ### Model Comparison Results
 
-| Model               | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
-| ------------------- | -------: | --------: | -----: | -------: | ------: |
-| Logistic Regression |   0.7488 |    0.5174 | 0.8013 |   0.6286 |  0.8460 |
-| SVM                 |   0.7504 |    0.5197 | 0.7799 |   0.6236 |  0.8267 |
-| Random Forest       |   0.7774 |    0.5712 | 0.6468 |   0.6065 |  0.8237 |
-| Decision Tree       |   0.7430 |    0.5159 | 0.5037 |   0.5096 |  0.6668 |
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.7488 | 0.5174 | 0.8013 | 0.6286 | 0.8460 |
+| SVM | 0.7504 | 0.5197 | 0.7799 | 0.6236 | 0.8267 |
+| Random Forest | 0.7774 | 0.5712 | 0.6468 | 0.6065 | 0.8237 |
+| Decision Tree | 0.7430 | 0.5159 | 0.5037 | 0.5096 | 0.6668 |
 
-**Selected Model: Logistic Regression**
+### Selected Model: Logistic Regression
 
-Logistic Regression was selected based on its F1-score and recall performance.
+Logistic Regression was selected based on its recall, F1-score and ROC-AUC performance.
+
+The model uses class weighting to account for the imbalance between churn and non-churn customers.
 
 ### Final Model Evaluation
 
 The selected model was evaluated on a separate test dataset.
 
-| Metric    |  Score |
-| --------- | -----: |
-| Accuracy  | 0.7374 |
-| Precision | 0.5034 |
-| Recall    | 0.7834 |
-| F1-Score  | 0.6130 |
-| ROC-AUC   | 0.8414 |
+| Metric | Score |
+|---|---:|
+| Accuracy | 73.74% |
+| Precision | 50.34% |
+| Recall | 78.34% |
+| F1-Score | 61.30% |
+| ROC-AUC | 84.14% |
+
+**Interpretation:**
+
+- The model identifies a substantial proportion of actual churn customers.
+- Recall of 78.34% indicates that the model detects approximately 78% of actual churn cases in the test set.
+- ROC-AUC of 84.14% indicates good discrimination between churn and non-churn customers.
+- Precision of 50.34% indicates that approximately half of the customers predicted to churn actually churned in the test set.
 
 These results represent the current baseline model performance.
-
-The model prioritizes identifying potential churn customers, reflected in its higher churn-class recall.
 
 ---
 
 ## Project Architecture
 
-The application follows a modular architecture separating data science experimentation, production machine learning logic, backend services, and frontend presentation.
+The application follows a modular architecture separating data science experimentation, production machine learning logic, backend services and frontend presentation.
 
 ```text
                     CUSTOMER CHURN
-                  PREDICTION SYSTEM
+                 PREDICTION & ANALYTICS
                           |
-             +------------+------------+
-             |                         |
-        DATA SCIENCE               APPLICATION
-             |                         |
-      Jupyter Notebooks           Flutter Web
-             |                         |
-       Data Analysis             Analytics Dashboard
-             |                         |
-       Preprocessing             REST API Requests
-             |                         |
-       Model Training                 FastAPI
-             |                         |
-       Model Evaluation          Prediction Endpoint
-             |                         |
-       Joblib Model <------------------+
-             |
-       Churn Prediction
+          +---------------+---------------+
+          |                               |
+     DATA SCIENCE                    APPLICATION
+          |                               |
+   Jupyter Notebooks                 Flutter Web
+          |                               |
+   Data Exploration                Analytics Dashboard
+          |                               |
+   Preprocessing                   REST API Requests
+          |                               |
+   Model Training                      FastAPI
+          |                               |
+   Model Evaluation              +--------+--------+
+          |                      |        |        |
+   Joblib Pipeline           Predict  Analytics  Insights
+          |                      |        |        |
+          +----------------------+--------+--------+
+                                 |
+                         JSON Responses
+                                 |
+                            Flutter UI
 ```
 
 ### Application Flow
 
-1. Customer information is entered through  Flutter interface.
-2. Flutter sends customer data to the FastAPI backend.
+**Individual Prediction**
+
+1. User enters customer information through the Flutter interface.
+2. Flutter sends customer data to FastAPI.
 3. FastAPI validates the incoming request using Pydantic.
 4. The saved machine learning pipeline processes the input.
 5. The model generates a churn prediction and probability.
-6. FastAPI returns the prediction as JSON.
-7. Flutter displays the prediction and relevant insights.
+6. FastAPI returns the result as JSON.
+7. Flutter displays the prediction.
 
-Historical analytics and individual customer predictions will be handled separately.
+**Historical Analytics**
+
+1. FastAPI reads the historical customer dataset.
+2. Pandas groups customers by selected dimensions.
+3. Churn counts and churn rates are calculated.
+4. The API returns aggregated analytics.
+5. Flutter displays the results.
+
+Historical analytics and individual predictions are handled separately.
+
+---
+
+## Application Modules
+
+### 1. Dashboard
+
+Displays an overview of the historical dataset:
+
+- Total customers.
+- Churned customers.
+- Retained customers.
+- Overall churn rate.
+- Model ROC-AUC.
+- Customer churn distribution.
+
+### 2. Churn Analytics
+
+Provides contract-wise historical churn analysis.
+
+The dashboard displays:
+
+- Contract type.
+- Total customers.
+- Churned customers.
+- Churn percentage.
+
+### 3. Predict Churn
+
+Allows users to enter individual customer information and obtain:
+
+- Churn prediction.
+- Estimated churn probability.
+
+The prediction is generated using the saved Scikit-learn pipeline.
+
+### 4. Retention Insights
+
+Analyzes historical churn patterns across three dimensions:
+
+- Contract.
+- Internet Service.
+- Customer Tenure.
+
+Customers are grouped into segments, and their historical churn rates are calculated.
+
+The displayed risk labels are descriptive categories based on historical segment churn rates, not separate machine learning predictions.
+
+### 5. About Model
+
+Displays:
+
+- Selected algorithm.
+- Dataset information.
+- Model evaluation metrics.
+- Preprocessing methods.
+- Machine learning pipeline.
+- Technologies used.
 
 ---
 
@@ -250,7 +334,6 @@ customer-churn-prediction/
 ├── data/
 │   ├── raw/
 │   │   └── Telco-Customer-Churn.csv
-│   │
 │   └── processed/
 │
 ├── notebooks/
@@ -271,39 +354,59 @@ customer-churn-prediction/
 │
 ├── api/
 │   ├── __init__.py
-│   └── app.py
+│   ├── app.py
+│   ├── analytics.py
+│   └── insights.py
 │
 ├── frontend/
 │   ├── lib/
-│   │   └── main.dart
+│   │   ├── main.dart
+│   │   ├── app_config.dart
+│   │   ├── analytics_service.dart
+│   │   ├── prediction_service.dart
+│   │   ├── prediction_screen.dart
+│   │   ├── insights_service.dart
+│   │   ├── retention_screen.dart
+│   │   └── about_model_screen.dart
 │   ├── web/
+│   │   ├── index.html
+│   │   └── _redirects
 │   ├── test/
+│   │   └── widget_test.dart
 │   ├── pubspec.yaml
 │   └── README.md
+│
+├── screenshots/
+│   ├── dashboard.png
+│   ├── churn analytics.png
+│   └── Predict customer churn.png
 │
 ├── tests/
 │   ├── __init__.py
 │   └── test_prediction.py
 │
+├── .gitignore
 ├── requirements.txt
+├── render.yaml
 ├── README.md
-├── LICENSE
-└── .gitignore
+└── LICENSE
 ```
 
 ---
 
-## Backend API
+## Backend API Documentation
 
 The backend is developed using FastAPI.
 
 ### Available Endpoints
 
-| Method | Endpoint   | Description            |
-| ------ | ---------- | ---------------------- |
-| GET    | `/`        | API welcome message    |
-| GET    | `/health`  | API health status      |
-| POST   | `/predict` | Predict customer churn |
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | API welcome message |
+| GET | `/health` | API health status |
+| POST | `/predict` | Predict individual customer churn |
+| GET | `/analytics/contracts` | Contract-wise churn analytics |
+| GET | `/analytics/retention-insights` | Historical retention insights |
 
 ### Prediction Request
 
@@ -352,10 +455,10 @@ The probability represents the model's estimated likelihood of customer churn.
 
 FastAPI automatically generates interactive API documentation.
 
-Once the backend is running, access:
+After starting the backend, access:
 
-* Swagger UI: `http://127.0.0.1:8000/docs`
-* ReDoc: `http://127.0.0.1:8000/redoc`
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- ReDoc: `http://127.0.0.1:8000/redoc`
 
 ---
 
@@ -365,11 +468,11 @@ Once the backend is running, access:
 
 Install the following:
 
-* Python
-* Flutter SDK
-* Dart SDK (included with Flutter)
-* Google Chrome
-* Git
+- Python 3.10 or compatible version.
+- Flutter SDK.
+- Dart SDK (included with Flutter).
+- Google Chrome.
+- Git.
 
 ### 1. Clone the Repository
 
@@ -389,7 +492,7 @@ python -m venv .venv
 
 Activate it on Windows:
 
-```bash
+```cmd
 .venv\Scripts\activate
 ```
 
@@ -430,65 +533,88 @@ flutter pub get
 Run the application:
 
 ```bash
-flutter run -d chrome
+flutter run -d chrome --dart-define=API_BASE_URL=http://127.0.0.1:8000
 ```
+
+The frontend communicates with the FastAPI backend through the configured API base URL.
 
 ---
 
-## Future Enhancements
+## Testing
 
-The following features are planned for subsequent development.
+### Flutter Analysis
 
-### 1. Interactive Analytics Dashboard
+From the `frontend` directory:
 
-* Total customer count.
-* Churned and retained customer counts.
-* Overall churn rate.
-* Model performance indicators.
-* Interactive charts and visualizations.
+```bash
+flutter analyze
+```
 
-### 2. Customer Churn Prediction
+### Flutter Widget Tests
 
-* Customer information input form.
-* Individual churn prediction.
-* Churn probability visualization.
-* Risk classification.
+```bash
+flutter test
+```
 
-### 3. Retention Insights
+### Python Prediction Test
 
-* Identify important churn patterns.
-* Highlight high-risk customer segments.
-* Generate actionable retention recommendations.
+From the repository root:
 
-### 4. Frontend and Backend Integration
+```bash
+python -m tests.test_prediction
+```
 
-* Connect Flutter Web with FastAPI.
-* Display real-time prediction responses.
-* Implement loading and error states.
+### API Testing
 
-### 5. Deployment
+Use the interactive Swagger documentation:
 
-* Deploy the FastAPI backend.
-* Deploy the Flutter Web application.
-* Configure production API connectivity.
+```text
+http://127.0.0.1:8000/docs
+```
 
-### 6. Final Testing
+The frontend and backend should both be running for complete application integration testing.
 
-* Prediction module testing.
-* API endpoint testing.
-* Input validation testing.
-* Frontend testing.
-* End-to-end integration testing.
+---
+
+## Deployment Status
+
+The application is currently configured for local development.
+
+Deployment preparation includes:
+
+- Render configuration through `render.yaml`.
+- Netlify redirect configuration.
+- Environment-based frontend API URL.
+- Backend CORS configuration using `FRONTEND_ORIGIN`.
+
+**Production deployment is not yet completed.**
+
+Planned deployment platforms:
+
+- Backend: Render.
+- Frontend: Netlify.
 
 ---
 
 ## Limitations
 
-* The current model uses historical telecom customer data.
-* Model predictions are estimates and not guarantees of customer behavior.
-* Current model performance is a baseline and can be improved.
-* Retention recommendations are planned and are not yet implemented.
-* The application is currently under development and is not deployed.
+- The model uses historical telecom customer data.
+- Predictions are estimates and do not guarantee future customer behaviour.
+- Model performance represents a baseline and can be improved.
+- Retention insights describe historical customer segments; they do not constitute personalized retention recommendations.
+- The application is not yet deployed to production.
+
+---
+
+## Future Enhancements
+
+- Deploy the backend and frontend.
+- Add more advanced customer segmentation.
+- Improve model performance through further experimentation.
+- Add explainable AI techniques for prediction interpretation.
+- Develop actionable retention recommendations.
+- Improve dashboard visualizations.
+- Add more comprehensive automated integration tests.
 
 ---
 
@@ -496,14 +622,16 @@ The following features are planned for subsequent development.
 
 **Pranay Pandurang Patil**
 
-Computer Science and Engineering Student at KLS GIT Belgaum.
+Computer Science and Engineering Student  
+KLS Gogte Institute of Technology, Belgaum.
 
-GitHub: [Pranay-Pandurang-Patil](https://github.com/Pranay-Pandurang-Patil)
+GitHub: https://github.com/Pranay-Pandurang-Patil
 
-Project Repository: [Customer Churn Prediction & Retention Analytics](https://github.com/Pranay-Pandurang-Patil/customer-churn-prediction)
+Project Repository:  
+https://github.com/Pranay-Pandurang-Patil/customer-churn-prediction
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

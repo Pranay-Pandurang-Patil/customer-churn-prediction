@@ -138,24 +138,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // SIDEBAR NAVIGATION
-  Widget _sidebarItem(
-    IconData icon,
-    String title,
-    int index,
-  ) {
-    final bool selected = selectedIndex == index;
+Widget _sidebarItem(
+  IconData icon,
+  String title,
+  int index,
+) {
+  final bool selected = selectedIndex == index;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 4,
-      ),
-      decoration: BoxDecoration(
-        color: selected
-            ? const Color(0xFF4F46E5)
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
+  return Container(
+    margin: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 4,
+    ),
+    child: Material(
+      color: selected
+          ? const Color(0xFF4F46E5)
+          : Colors.transparent,
+      borderRadius: BorderRadius.circular(10),
       child: ListTile(
         leading: Icon(
           icon,
@@ -169,14 +168,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         dense: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         onTap: () {
           setState(() {
             selectedIndex = index;
           });
         },
       ),
-    );
-  }
+    ),
+  );
+}
 
   // DASHBOARD CONTENT
   Widget _buildDashboardContent() {
